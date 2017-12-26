@@ -1,0 +1,201 @@
+import math
+import random
+import time
+
+#Točka je par (x,y), krog pa je trojček števil (središče x, središče y, polmer)
+#vrne najmnajši krog, ki zajema vse dan točke
+#VHOD: seznam točk npr.[(1,2),(-3.5,52)]
+#IZHOD: trojček števil, ki predstavlja krog
+
+#točko označimo s p - point, krog c-circle
+
+#najprej definirajmo vse funkcije
+
+#Vrne ploščino paralelegroama, ki ga določajao točke (x0,y0),(x1,y1) in (x2,y2)
+def vektorski_produkt(p, q, r):
+	return (q[0]-p[0])*(r[1]-p[1]) - (q[1]-p[1])*(r[0]-p[0])
+
+#vrne True, če je točka p v krogu c
+#funkcija math.hypot(x,y) vrne evklidkso normo vektroja (x^2+y^2)^(0.5)
+def je_v_krogu(c,p):
+    return c is not None and math.hypot(p[0] - c[0], p[1] - c[1]) <= c[2]
+
+#funckija premer vrne krog, ki ga določata dve točki p0 in p1 torej je njuna razdalaja kar premer kroga
+def premer(p0, p1):
+    cx = (p0[0] + p1[0]) / 2.0
+    cy = (p0[1] + p1[1]) / 2.0
+    r0 = math.hypot(cx - p0[0], cy - p0[1])
+    r1 = math.hypot(cx - p1[0], cy - p1[1])
+    return (cx, cy, max(r0, r1))
+
+#funkcija ocrtan krog vrne krog, ki ga določajo 3 točke oz. vrne trikotniku očratan krog
+def ocrtan_krog(p0,p1,p2):
+    ax, ay = p0
+    bx, by = p1
+    cx, cy = p2
+    ox = (min(ax, bx, cx) + max(ax, bx, cx)) / 2.0
+    oy = (min(ay, by, cy) + max(ay, by, cy)) / 2.0
+    ax -= ox;
+    ay -= oy
+    bx -= ox;
+    by -= oy
+    cx -= ox;
+    cy -= oy
+    d = (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) * 2.0
+    if d == 0.0:
+        return None
+    x = ox + ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) + (cx * cx + cy * cy) * (ay - by)) / d
+    y = oy + ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) + (cx * cx + cy * cy) * (bx - ax)) / d
+    ra = math.hypot(x - p0[0], y - p0[1])
+    rb = math.hypot(x - p1[0], y - p1[1])
+    rc = math.hypot(x - p2[0], y - p2[1])
+    return (x, y, max(ra, rb, rc))
+
+
+
+#Naslednje funkcije izračunaj krog, če poznamo sledeče # robnih točk
+
+#poznamo dve robni točki p in q
+def krog2(tocke, p, q):
+    krog = premer(p,q)
+    px, py = p
+    qx, qy = q
+    CCW = None
+    CW = None
+
+
+    #za vsako točko, ki ni v krogu dolčenem s p in q
+    for r in tocke:
+        if je_v_krogu(krog, r):
+            continue
+
+        vprod = vektorski_produkt(p,q,r)
+        c = ocrtan_krog(p, q, r)
+
+        if c is None:
+            continue
+        elif vprod > 0.0 and (CCW is None or vektorski_produkt(p,q,c) > vektorski_produkt(p,q,CCW)):
+            CCW = c
+
+        elif vprod< 0.0 and (CW is None or vektorski_produkt(p,q,c) < vektorski_produkt(p,q,CW)):
+            CW = c
+
+
+        #Izberemo kateri krog se vrne
+
+    if CCW is None and CW is None:
+        return krog
+    elif CCW is None:
+        return CW
+    elif CW is None:
+        return CCW
+    else:
+        return CCW if (CCW[2] <= CW[2]) else CW
+
+
+#poznamo eno robno točko p
+
+def krog1(tocke,p):
+    c = (p[0],p[1],0.0)
+
+    for (i,q) in enumerate(tocke):
+        if not je_v_krogu(c,q):#tocke, ki niso v krogu
+            if c[2] == 0.0:
+                c = premer(p,q)
+            else:
+                c = krog2(tocke[:i+1],p,q) ##????????
+
+    return c
+
+#na zacetku ne poznmo robnih tock
+
+def Welzl(tocke):
+    #spremnimo v float in jih nakljucno razvrstimo
+    tocke = [(float(x), float(y)) for (x, y) in tocke]
+    random.shuffle(tocke)
+
+    #iterativno dodajamo tocke in prepračunavamo krog
+    c = None
+    for (i,p) in enumerate(tocke):
+        if c is None or not je_v_krogu(c,p):
+            c = krog1(tocke[: i+1],p) ##??
+    return c
+
+################################################################################################################
+
+def je_CCW(p,q,r):
+    "Vrne TRUE, če gredo vektorji pq,qr v nasprotno smer urinega kazalca"
+    assert p != q and q != r and p != r
+
+    if vektorski_produkt(p,q,r) >= 0:
+        return True
+    else:
+        return False
+
+def je_v_Polygonu(t,P):
+    "Vrne True, če je točka t vsebovana v Polygonu P"
+
+    #Predvidevamo, da je Polygon podan z zaporedjem točk v pozitivni smeri
+
+    for i in range( len(P[:-1])):
+        p, q = P[i],P[i+1]
+        if not je_CCW(p,q,t):
+            return False #je zunaj
+
+    return True
+
+
+def min_pravokotnik(P):
+    "Vrne najmanjsi pravokotnik, ki vsebuje poygon P"
+
+    X =[] #x-koordinate
+    Y =[] #y-koordinate
+
+    for x,y in P:
+        X.append(x)
+        Y.append(y)
+
+    maxX =max(X)
+    minX =min(X)
+    maxY =max(Y)
+    minY =min(Y)
+
+    return (minX,maxX,minY,maxY)
+
+from random import randrange, uniform
+
+def randomTocke(n,P):
+    "Vrne n-naključnih točk znotraj polygona P"
+
+    tocke = []
+    minX,maxX,minY,maxY = min_pravokotnik(P)
+
+    while len(tocke) < n:
+        (X,Y) = (uniform(minX,maxX), uniform(minY, maxY))
+        p = (X,Y)
+        if je_v_Polygonu(p,P):
+            tocke.append(p)
+
+    return tocke
+
+
+
+#EKSPERIMENT
+
+import time
+
+def eksperiment(oblike):
+    Slovar_casov = {}
+    for oblika in oblike :
+        casi = []
+        for n in (100, 1000, 10000,100000):
+            cas_n = []
+            for _ in range(100) :
+                tocke = randomTocke(n, oblika1)
+                to = time.time()
+                Welzl(tocke)
+                t1 = time.time()
+                cas_n.append(t1-to)
+            casi.append(sum(cas_n)/100)
+        Slovar_casov["oblika"] = casi
+
