@@ -180,22 +180,52 @@ def randomTocke(n,P):
 
 
 
+#Oblike
+
+#Pravokotnik
+
+Pravokotnik = [(-10000,-1),(10000,-1),(10000,1),(-10000,1)]
+
+#Elipsa
+
+Elipsa = [(-50,0),(50,0), 150]
+
+r = 50
+#Kvadrat
+
+Kvadrat = [(-r,-r),(r,-r),(r,r),(-r,r)]
+
+#Trikotnik
+
+Trikotnik = [(-r,-r),(r,-r), (0, r)]
+
+#Krog
+
+Krog = (0,0, r)
+
+
+
 #EKSPERIMENT
 
+oblike1 = [Pravokotnik,Kvadrat,Trikotnik]
+imena = ["Pravokotnik","Kvadrat","Trikotnik"]
 import time
 
 def eksperiment(oblike):
     Slovar_casov = {}
-    for oblika in oblike :
+    for (i,oblika) in enumerate(oblike) :
         casi = []
-        for n in (100, 1000, 10000,100000):
+        for n in (100, 1000):
             cas_n = []
             for _ in range(100) :
-                tocke = randomTocke(n, oblika1)
+                tocke = randomTocke(n, oblika)
                 to = time.time()
                 Welzl(tocke)
                 t1 = time.time()
                 cas_n.append(t1-to)
             casi.append(sum(cas_n)/100)
-        Slovar_casov["oblika"] = casi
+
+        Slovar_casov[imena[i]] = casi
+    return Slovar_casov
+
 
