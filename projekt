@@ -182,7 +182,7 @@ def randomTocke(n,P):
 
 
 
-#Oblike
+#Oblike ##################################################################
 
 #Pravokotnik
 
@@ -207,28 +207,9 @@ Krog = (0,0, r)
 
 
 
-#EKSPERIMENT
+#Dodatne funkcije za krog in elipso ################################################
 
-oblike1 = [Pravokotnik,Kvadrat,Trikotnik]
-imena = ["Pravokotnik","Kvadrat","Trikotnik"]
-import time
 
-def eksperiment(oblike):
-    Slovar_casov = {}
-    for (i,oblika) in enumerate(oblike) :
-        casi = []
-        for n in (100, 1000):
-            cas_n = []
-            for _ in range(100) :
-                tocke = randomTocke(n, oblika)
-                to = time.time()
-                Welzl(tocke)
-                t1 = time.time()
-                cas_n.append(t1-to)
-            casi.append(sum(cas_n)/100)
-
-        Slovar_casov[imena[i]] = casi
-    return Slovar_casov
 
 def randomTockeKrog(n,c):
     "Vrne n-naključnih točk znotraj kroga c"
@@ -277,5 +258,28 @@ def randomTockeElispa(n,e):
     return tocke
 
 
+#Eksperiment #####################################################################
+oblike1 = [Pravokotnik,Kvadrat,Trikotnik]
+imena = ["Pravokotnik","Kvadrat","Trikotnik"]
+import time
+
+
+ 
+def eksperiment(oblike):
+    Slovar_casov = {}
+    for (i,oblika) in enumerate(oblike) :
+        casi = []
+        for n in (100, 1000):
+            cas_n = []
+            for _ in range(100) :
+                tocke = randomTocke(n, oblika)
+                to = time.time()
+                Welzl(tocke)
+                t1 = time.time()
+                cas_n.append(t1-to)
+            casi.append(sum(cas_n)/100)
+
+        Slovar_casov[imena[i]] = casi
+    return Slovar_casov
 
 
