@@ -11,4 +11,5 @@ lines(n, pravokotnik, xlim=range(n), ylim=range(pravokotnik), pch=16,col = "blue
 lines(n, kvadrat, xlim = range(n), ylim= range(kvadrat), pch =16,col = "green", lwd = "3")
 lines(n, trikotnik, xlim = range(n), ylim= range(trikotnik), pch =16, col = "gold", lwd = "3")
 lines(n, elipsa, xlim = range(n), ylim= range(elipsa), pch =16,col = "pink", lwd = "3")
-legend('toplef', c("Krog", "Pravokotnik", "Kvadrat", "Trikotnik", "Elipsa"),col = c("red", "blue", "green", "gold", "pink"), lwd = 2:2,cex=0.75 )
+abline(v=n,lty=2)
+legend('toplef', c("Krog", "Kvadrat","Elipsa","Trikotnik", "Pravokotnik" ),col = c("red","green",  "pink", "gold","blue"), lwd = 2:2,cex=0.75 )
