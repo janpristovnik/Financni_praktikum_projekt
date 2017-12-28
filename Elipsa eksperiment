@@ -1,0 +1,14 @@
+def eksperiment_elipsa_1(e):
+    casi = []
+    for n in (100, 1000,10000,100000):
+        cas_n = []
+        tocke = randomTocke(n, e)
+        for _ in range(n):
+            to = time.time()
+            Welzl(tocke)
+            t1 = time.time()
+            cas_n.append(t1 - to)
+        casi.append(sum(cas_n) / n)
+
+    Slovar_casov["Elipsa1"] = casi
+    return Slovar_casov
