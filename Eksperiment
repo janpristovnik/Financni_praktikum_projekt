@@ -147,3 +147,33 @@ def eksperiment(oblike):
 
         Slovar_casov[imena[i]] = casi
     return Slovar_casov
+    
+    def eksperiment_krog(c):
+    casi = []
+    for n in (100, 1000,10000,100000):
+        cas_n = []
+        tocke = randomTockeKrog(n, c)
+        for _ in range(100):
+            to = time.time()
+            Welzl(tocke)
+            t1 = time.time()
+            cas_n.append(t1 - to)
+        casi.append(sum(cas_n) / 100)
+
+    Slovar_casov["Krog"] = casi
+    return Slovar_casov
+
+def eksperiment_elipsa(e):
+    casi = []
+    for n in (100, 1000,10000,100000):
+        cas_n = []
+        tocke = randomTockeElispa(n, e)
+        for _ in range(100):
+            to = time.time()
+            Welzl(tocke)
+            t1 = time.time()
+            cas_n.append(t1 - to)
+        casi.append(sum(cas_n) / 100)
+
+    Slovar_casov["Elipsa"] = casi
+    return Slovar_casov
