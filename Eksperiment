@@ -83,7 +83,7 @@ def je_v_elipsi(e, p):
         return False
 
 
-def randomTockeElispa(n, e):
+def randomTockeElipsa(n, e):
     "Vrne n-naključnih točk znotraj elipse e s središčem v (0,0)"
     F1x, F1y = e[0]  # 1.gorišče
     F2x, F2y = e[1]  # 2.gorišče
@@ -106,20 +106,20 @@ def randomTockeElispa(n, e):
 
 
 # Oblike ##################################################################
+#Dolg_pravokotnik
+Dolg_pravokotnik = [(-10000, -1), (10000, -1), (10000, 1), (-10000, 1)]
 
-# Pravokotnik
-Pravokotnik = [(-10000, -1), (10000, -1), (10000, 1), (-10000, 1)]
-
-# Elipsa
-Elipsa = [(-50, 0), (50, 0), 150]
 
 r = 50
+
+# Pravokotnik
+Pravokotnik = [(-r,-(math.pi* r)/4),(r,-(math.pi* r)/4),(r,(math.pi* r)/4),(-r,(math.pi* r)/4)] #ploščina pravokotnika enaka kot ploščina kroga
+# Elipsa
+Elipsa = [(-r, 0), (r, 0), 3*r]
 # Kvadrat
 Kvadrat = [(-r, -r), (r, -r), (r, r), (-r, r)]
-
 # Trikotnik
 Trikotnik = [(-r, -r), (r, -r), (0, r)]
-
 # Krog
 Krog = (0, 0, r)
 
@@ -130,7 +130,6 @@ imena = ["Pravokotnik", "Kvadrat", "Trikotnik"]
 
 import time
 
-
 def eksperiment(oblike):
     Slovar_casov = {}
     for (i, oblika) in enumerate(oblike):
@@ -138,28 +137,27 @@ def eksperiment(oblike):
         for n in (100, 1000,10000,100000):
             cas_n = []
             tocke = randomTocke(n, oblika)
-            for _ in range(n):
+            for _ in range(100):
                 to = time.time()
                 Welzl.Welzl(tocke)
                 t1 = time.time()
                 cas_n.append(t1 - to)
-            casi.append(sum(cas_n) / n)
+            casi.append(sum(cas_n) / 100)
 
         Slovar_casov[imena[i]] = casi
     return Slovar_casov
-    
-    def eksperiment_krog(c):
+
+def eksperiment_krog(c):
     casi = []
     for n in (100, 1000,10000,100000):
         cas_n = []
         tocke = randomTockeKrog(n, c)
         for _ in range(100):
             to = time.time()
-            Welzl(tocke)
+            Welzl.Welzl(tocke)
             t1 = time.time()
             cas_n.append(t1 - to)
         casi.append(sum(cas_n) / 100)
-
     Slovar_casov["Krog"] = casi
     return Slovar_casov
 
@@ -167,10 +165,10 @@ def eksperiment_elipsa(e):
     casi = []
     for n in (100, 1000,10000,100000):
         cas_n = []
-        tocke = randomTockeElispa(n, e)
+        tocke = randomTockeElipsa(n, e)
         for _ in range(100):
             to = time.time()
-            Welzl(tocke)
+            Welzl.Welzl(tocke)
             t1 = time.time()
             cas_n.append(t1 - to)
         casi.append(sum(cas_n) / 100)
