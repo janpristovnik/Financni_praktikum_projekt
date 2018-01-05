@@ -84,26 +84,21 @@ def krog2(tocke, p, q):
     qx, qy = q
     CCW = None
     CW = None
-
-
     #za vsako točko, ki ni v krogu dolčenem s p in q
     for r in tocke:
         if je_v_krogu(krog, r):
             continue
-
         vprod = vektorski_produkt(p,q,r)
         c = ocrtan_krog(p, q, r)
 
-        if c is None:
+	if c is None:
             continue
         elif vprod > 0.0 and (CCW is None or vektorski_produkt(p,q,c) > vektorski_produkt(p,q,CCW)):
             CCW = c
 
         elif vprod< 0.0 and (CW is None or vektorski_produkt(p,q,c) < vektorski_produkt(p,q,CW)):
             CW = c
-
         #Izberemo kateri krog se vrne
-
     if CCW is None and CW is None:
         return krog
     elif CCW is None:
@@ -115,7 +110,6 @@ def krog2(tocke, p, q):
 
 
 #poznamo eno robno točko p
-
 def krog1(tocke,p):
     c = (p[0],p[1],0.0)
 
