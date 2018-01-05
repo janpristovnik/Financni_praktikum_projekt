@@ -58,8 +58,6 @@ def ocrtan_krog(p0,p1,p2):
 #poznamo dve robni točki p in q
 def krog2(tocke, p, q):
     krog = premer(p,q)
-    px, py = p
-    qx, qy = q
     CCW = None
     CW = None
     #za vsako točko, ki ni v krogu dolčenem s p in q
@@ -108,5 +106,5 @@ def Welzl(tocke):
     c = None
     for (i,p) in enumerate(tocke):
         if c is None or not je_v_krogu(c,p):
-            c = krog1(tocke[: i+1],p) ##??
+            c = krog1(tocke[: i+1],p) 
     return c
