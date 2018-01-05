@@ -90,12 +90,10 @@ def krog2(tocke, p, q):
             continue
         vprod = vektorski_produkt(p,q,r)
         c = ocrtan_krog(p, q, r)
-
 	if c is None:
             continue
         elif vprod > 0.0 and (CCW is None or vektorski_produkt(p,q,c) > vektorski_produkt(p,q,CCW)):
             CCW = c
-
         elif vprod< 0.0 and (CW is None or vektorski_produkt(p,q,c) < vektorski_produkt(p,q,CW)):
             CW = c
         #Izberemo kateri krog se vrne
