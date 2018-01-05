@@ -117,7 +117,6 @@ def krog1(tocke,p):
                 c = premer(p,q)
             else:
                 c = krog2(tocke[:i+1],p,q)
-
     return c
 
 #na zacetku ne poznmo robnih tock
