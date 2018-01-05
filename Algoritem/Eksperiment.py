@@ -135,9 +135,9 @@ def eksperiment(oblike):
     for (i, oblika) in enumerate(oblike):
         casi = []
         for n in (100, 1000,10000,100000):
-            cas_n = []
-            tocke = randomTocke(n, oblika)
+            cas_n = []            
             for _ in range(100):
+                tocke = randomTocke(n, oblika)
                 to = time.time()
                 Welzl.Welzl(tocke)
                 t1 = time.time()
@@ -150,9 +150,9 @@ def eksperiment(oblike):
 def eksperiment_krog(c):
     casi = []
     for n in (100, 1000,10000,100000):
-        cas_n = []
-        tocke = randomTockeKrog(n, c)
+        cas_n = []        
         for _ in range(100):
+            tocke = randomTockeKrog(n, c)
             to = time.time()
             Welzl.Welzl(tocke)
             t1 = time.time()
@@ -165,8 +165,8 @@ def eksperiment_elipsa(e):
     casi = []
     for n in (100, 1000,10000,100000):
         cas_n = []
-        tocke = randomTockeElipsa(n, e)
         for _ in range(100):
+            tocke = randomTockeElipsa(n, e)
             to = time.time()
             Welzl.Welzl(tocke)
             t1 = time.time()
