@@ -28,35 +28,13 @@ def premer(p0, p1):
     return (cx, cy, r)
 
 #funkcija ocrtan krog vrne krog, ki ga določajo 3 točke oz. vrne trikotniku očratan krog
-def ocrtan_krog(p0,p1,p2):
-    ax, ay = p0
-    bx, by = p1
-    cx, cy = p2
-    ox = (min(ax, bx, cx) + max(ax, bx, cx)) / 2.0
-    oy = (min(ay, by, cy) + max(ay, by, cy)) / 2.0
-    ax -= ox;
-    ay -= oy
-    bx -= ox;
-    by -= oy
-    cx -= ox;
-    cy -= oy
-    d = (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) * 2.0
-    if d == 0.0:
-        return None
-    x = ox + ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) + (cx * cx + cy * cy) * (ay - by)) / d
-    y = oy + ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) + (cx * cx + cy * cy) * (bx - ax)) / d
-    ra = math.hypot(x - p0[0], y - p0[1])
-    rb = math.hypot(x - p1[0], y - p1[1])
-    rc = math.hypot(x - p2[0], y - p2[1])
-    return (x, y, max(ra, rb, rc))
-
 def sarus(matrika):
     "Vrne determinanto 3x3 matrike"
     vsota1 = matrika[0][0] * matrika[1][1] * matrika[2][2] + matrika[0][1] * matrika[1][2]*matrika[2][0] + matrika[0][2] * matrika[1][0]*matrika[2][1]
     vsota2 = matrika[2][0]*matrika[1][1]*matrika[0][2] + matrika[2][1]*matrika[1][2]*matrika[0][0] +matrika[2][2] * matrika[1][0]*matrika[0][1]
     return vsota1 - vsota2
 
-def ocrtan_krog2(p0,p1,p2):
+def ocrtan_krog(p0,p1,p2):
     "Algoritem iz Wikipedije: https://en.wikipedia.org/wiki/Circumscribed_circle"
 
     Ax,Ay = p0
