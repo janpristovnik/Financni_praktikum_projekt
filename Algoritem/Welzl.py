@@ -116,7 +116,7 @@ def krog1(tocke,p):
             if c[2] == 0.0:
                 c = premer(p,q)
             else:
-                c = krog2(tocke[:i+1],p,q) ##????????
+                c = krog2(tocke[:i+1],p,q)
 
     return c
 
